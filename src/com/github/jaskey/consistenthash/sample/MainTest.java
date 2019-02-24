@@ -25,7 +25,7 @@ public class MainTest {
         DubboGroupNode g5 = new DubboGroupNode("group5");
 
         ConsistentHashRouter<DubboGroupNode> testRouter =
-                new ConsistentHashRouter(Arrays.asList(g1, g2, g3, g4, g5), 160);
+                new ConsistentHashRouter(Arrays.asList(g1, g2, g3, g4, g5), 320,1);
 
         List<String> argmentList = new ArrayList<>();
         for(int i=0; i < 10000; i++) {
@@ -35,7 +35,7 @@ public class MainTest {
         testArgmentList(argmentList, testRouter);
         // 6个
         DubboGroupNode g6 = new DubboGroupNode("group6");
-        testRouter.addNode(g6);
+        testRouter.addNode(g6, 320);
         testArgmentList(argmentList, testRouter);
         testRouter.removeNode(g6);
         testArgmentList(argmentList, testRouter);

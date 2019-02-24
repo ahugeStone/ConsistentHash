@@ -45,13 +45,22 @@ public class ConsistentHashRouter<T extends Node> {
      */
     private int defaultVnode = 160;
 
+    public int getIdentityHashCode() {
+        return identityHashCode;
+    }
+
+    /**
+     * hash指纹
+     */
+    private final int identityHashCode;
+
     /**
      * 使用默认md5算法的构造器
      * @param pNodes 物理节点的集合
      * @param vNodeCount 虚拟节点的数量
      */
-    public ConsistentHashRouter(Collection<T> pNodes, int vNodeCount) {
-        this(pNodes,vNodeCount, new MD5Hash());
+    public ConsistentHashRouter(Collection<T> pNodes, int vNodeCount, int identityHashCode) {
+        this(pNodes,vNodeCount,identityHashCode, new MD5Hash());
     }
 
     /**
@@ -60,10 +69,11 @@ public class ConsistentHashRouter<T extends Node> {
      * @param vNodeCount 虚拟节点的数量 amounts of virtual nodes
      * @param hashFunction hash算法 hash Function to hash Node instances
      */
-    public ConsistentHashRouter(Collection<T> pNodes, int vNodeCount, HashFunction hashFunction) {
+    public ConsistentHashRouter(Collection<T> pNodes, int vNodeCount, int identityHashCode, HashFunction hashFunction) {
         if (hashFunction == null) {
             throw new NullPointerException("Hash Function is null");
         }
+        this.identityHashCode = identityHashCode;
         this.hashFunction = hashFunction;
         if (pNodes != null) {
             for (T pNode : pNodes) {
